@@ -1,6 +1,5 @@
+import * as actions from "./actionTypes";
 
-const bugAdded = "BUG_ADD";
-const bugRemoved = "BUG_REMOVED";
 
 let lastId = 0;
 
@@ -8,8 +7,9 @@ let lastId = 0;
 //to prevent application from blowing up, set state = [] to represent the initial state
 
 export default function reducer(state = [], action) {
+    debugger;
     //can also implement this logic with a switch/case structure
-    if(action.type === bugAdded) {
+    if(action.type === actions.BUG_ADDED) {
         //return array of new bug object
         return [
             ...state,
@@ -20,8 +20,13 @@ export default function reducer(state = [], action) {
             }
         ]
     } 
-    else if(action.type === bugRemoved) {
+    else if(action.type === actions.BUG_REMOVED) {
         return state.filter(bug => bug.id !== action.payload.id)
+    }
+    else if(action.type === actions.BUG_RESOLVED) {
+        return state.map(bug => 
+            bug !== action.payload.id ? bug : {...bug, resolved: true}  //if the bug id matches, return a new object by coping the bug and then setting the resolved property to true
+        )
     }
     //very important to return the current state if there is an action type that isn't handled, so that the application 
     //doesnt blow up
