@@ -7,7 +7,6 @@ let lastId = 0;
 //to prevent application from blowing up, set state = [] to represent the initial state
 
 export default function reducer(state = [], action) {
-    debugger;
     //can also implement this logic with a switch/case structure
     if(action.type === actions.BUG_ADDED) {
         //return array of new bug object
@@ -24,8 +23,9 @@ export default function reducer(state = [], action) {
         return state.filter(bug => bug.id !== action.payload.id)
     }
     else if(action.type === actions.BUG_RESOLVED) {
+        debugger;
         return state.map(bug => 
-            bug !== action.payload.id ? bug : {...bug, resolved: true}  //if the bug id matches, return a new object by coping the bug and then setting the resolved property to true
+            bug.id == action.payload.id ? {...bug, resolved: true} : bug  //if the bug id matches, return a new object by coping the bug and then setting the resolved property to true
         )
     }
     //very important to return the current state if there is an action type that isn't handled, so that the application 
