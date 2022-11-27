@@ -9,6 +9,7 @@ const unsubscribe = store.subscribe(() => {
     //this gets called anytime there are changes to the state in the store
     //this is where the UI will subscribe to the store so that the UI gets notified when the state changes
     //and can update
+    console.log("Store changed!");
 });
 
 //easier way to dispatch an action is to call the action creator like this: 
@@ -17,12 +18,12 @@ store.dispatch(bugResolved(1));
 
 console.log(store);
 
-store.dispatch({
-    type: actions.BUG_REMOVED,
-    payload: {
-        id: 1
-    }
-});
+// store.dispatch({
+//     type: actions.BUG_RESOLVED,
+//     payload: {
+//         id: 1
+//     }
+// });
 
 
 console.log(store);
