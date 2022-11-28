@@ -25,7 +25,7 @@ export default function reducer(state = [], action) {
     else if(action.type === actions.BUG_RESOLVED) {
         debugger;
         return state.map(bug => 
-            bug.id == action.payload.id ? {...bug, resolved: true} : bug  //if the bug id matches, return a new object by coping the bug and then setting the resolved property to true
+            bug.id == action.payload.id ? {...bug, resolved: true} : bug  //if the bug id matches, return a new object by copying the bug and then setting the resolved property to true
         )
     }
     //very important to return the current state if there is an action type that isn't handled, so that the application 

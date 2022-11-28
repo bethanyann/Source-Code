@@ -14,6 +14,8 @@ const unsubscribe = store.subscribe(() => {
 
 //easier way to dispatch an action is to call the action creator like this: 
 store.dispatch(bugAdded("Bug 1"));
+store.dispatch(bugAdded("Bug 2"));
+store.dispatch(bugAdded("Bug 3"));
 store.dispatch(bugResolved(1));
 
 console.log(store);
