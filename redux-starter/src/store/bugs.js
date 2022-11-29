@@ -1,5 +1,38 @@
-import * as actions from "./actionTypes";
 
+// ACTION TYPES
+// store all of the different action type strings in one place to reduce code duplication 
+const BUG_ADDED = "BUG_ADDED";
+const BUG_REMOVED = "BUG_REMOVED";
+const BUG_RESOLVED = "BUG_RESOLVED";
+
+// ACTION CREATORS
+
+export const bugAdded = description => ({
+    type: BUG_ADDED,
+    payload: {
+        description: description
+    }
+});
+
+export const bugResolved = id => ({
+    type: BUG_RESOLVED,
+    payload: {
+        id: id
+    }
+});
+
+// action creator as not an arrow function
+// export function bugAdded(description) {
+//     //dispatch an action 
+//     return {
+//         type: actions.BUG_ADDED,
+//         payload: {
+//             description: description
+//         }
+//      }
+//};
+
+// REDUCERS
 
 let lastId = 0;
 
@@ -8,7 +41,7 @@ let lastId = 0;
 
 export default function reducer(state = [], action) {
     //can also implement this logic with a switch/case structure
-    if(action.type === actions.BUG_ADDED) {
+    if(action.type === BUG_ADDED) {
         //return array of new bug object
         return [
             ...state,
@@ -19,10 +52,10 @@ export default function reducer(state = [], action) {
             }
         ]
     } 
-    else if(action.type === actions.BUG_REMOVED) {
+    else if(action.type === BUG_REMOVED) {
         return state.filter(bug => bug.id !== action.payload.id)
     }
-    else if(action.type === actions.BUG_RESOLVED) {
+    else if(action.type === BUG_RESOLVED) {
         debugger;
         return state.map(bug => 
             bug.id == action.payload.id ? {...bug, resolved: true} : bug  //if the bug id matches, return a new object by copying the bug and then setting the resolved property to true

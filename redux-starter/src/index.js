@@ -1,8 +1,7 @@
-import store from './store';
-import { bugAdded, bugResolved } from './actions';
+import configureStore from './store/configureStore';
+import { bugAdded, bugResolved } from './store/bugs';
 
-console.log(store.getState()); // this is [] when application is first loaded
-
+const store = configureStore();
 //subscribe to the store
 //this function returns a method for unsubscribing to the store 
 const unsubscribe = store.subscribe(() => {
