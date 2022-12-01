@@ -1,5 +1,5 @@
 
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createAction, createReducer, createSlice } from "@reduxjs/toolkit";
 
 // ACTION TYPES
 // store all of the different action type strings in one place to reduce code duplication 

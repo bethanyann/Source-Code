@@ -1,6 +1,6 @@
 // import { createStore } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-import reducer from './bugs';
+import reducer from './projects';
 
 //createStore is a good example of a higher-order function bc it takes a function (reducer) as an argument
 
