@@ -1,5 +1,5 @@
 import configureStore from './store/configureStore';
-import { bugAdded, bugResolved, bugAssignedToUser, getUnresolvedBugs, getUnresolvedBugsMemo } from './store/bugs';
+import { bugAdded, bugResolved, bugAssignedToUser, getUnresolvedBugs, getUnresolvedBugsMemo, getBugsByUser } from './store/bugs';
 import { projectAdded } from './store/projects';
 import { userAdded } from './store/users';
 
@@ -39,6 +39,10 @@ const unresolvedBugsMemoedAgain = getUnresolvedBugsMemo(store.getState());
 
 //this returns true because the bug data didn't change, therefore it pulled the second one from the cache
 console.log(unresolvedBugsMemoed === unresolvedBugsMemoedAgain); 
+
+//this is that concept of currying that was discussed in the other redux video that I started watching.
+const user1Bugs = getBugsByUser(1)(store.getState());
+console.log(user1Bugs);
 
 console.log(store);
 

@@ -21,4 +21,4 @@ const slice = createSlice({
 //the reducer has to be a default export
 export default slice.reducer;
 //the actions are named exports
-export const { usertAdded } = slice.actions;
+export const { userAdded } = slice.actions;

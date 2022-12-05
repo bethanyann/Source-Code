@@ -34,7 +34,7 @@ export default createReducer([], {
         //need the bug and user here in the payload
         const { bugId, userId } = action.payload;
         //look up bug with this id and set it's user id to the user
-        const index = state.findIndex(bug => bug.id === id);
+        const index = state.findIndex(bug => bug.id === bugId);
         state[index].userId = userId;
     }
 
@@ -48,6 +48,12 @@ export const getUnresolvedBugs = (state) => {
 
 //here's a way to memoize the unresolvedBugs with reselect's createSelector
 export const getUnresolvedBugsMemo = createSelector(
-    state => state.entites.bugs,
+    state => state.entities.bugs,
     bugs => bugs.filter(bug => !bug.resolved) //if this list of bugs does not change, this logic will not be executed again
 )
+
+export const getBugsByUser = (userId) => createSelector(
+    state => state.entities.bugs, //takes in state, returns state.entities.bugs
+    //the output of the function is the input of the result function
+    bugs => bugs.filter(bug => bug.userId === userId)
+);
