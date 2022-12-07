@@ -1,5 +1,5 @@
 
-
+//example of currying here
 const api = store => next => action => {
     // type: 'apiCallBegin',
     // payload: {
