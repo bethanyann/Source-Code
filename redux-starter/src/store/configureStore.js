@@ -1,5 +1,5 @@
 // import { createStore } from 'redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import reducer from './reducer';
 import api from './middleware/api';
 //createStore is a good example of a higher-order function bc it takes a function (reducer) as an argument
@@ -14,6 +14,7 @@ export default function createStore() {
     const store = configureStore({
         reducer: reducer,
         middleware: [
+            ...getDefaultMiddleware(),
             api
         ]
     });
