@@ -2,9 +2,17 @@ import configureStore from './store/configureStore';
 import { bugAdded, bugResolved, bugAssignedToUser, getUnresolvedBugs, getUnresolvedBugsMemo, getBugsByUser } from './store/bugs';
 import { projectAdded } from './store/projects';
 import { userAdded } from './store/users';
-
+import * as actions from './store/api';
 
 const store = configureStore();
+
+store.dispatch(actions.apiCallBegan({
+    payload: {
+        url: '/bugs',
+        onSuccess: 'bugsReceived', // using strings, not passing functions as callbacks because this action should be serializable
+    }
+}));
+
 // subscribe to the store
 // this function returns a method for unsubscribing to the store 
 const unsubscribe = store.subscribe(() => {
