@@ -45,7 +45,8 @@ const slice = createSlice({
     }
 });
 
-export const {
+//these don't need exported because they're only used internally and shouldn't be able to be accessed outside of this slice
+ const {
     bugAssignedToUser,
     bugAdded,
     bugResolved,
