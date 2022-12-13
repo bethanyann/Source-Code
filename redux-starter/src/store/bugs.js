@@ -17,9 +17,14 @@ const slice = createSlice({
             const index = bugs.list.findIndex(bug => bug.id === bugId);
             if(index !== -1) bugs.list[index].userId = userId;
         },
+        //redux devtools automatically creates an action for us called bugAdded
+        // command = addBug - event = bugAdded
+        // a command is an instruction into the system and represents what needs to be done, an event represents what just happened
+        // this is related to CQRS
         bugAdded: (bugs, action) => {
             bugs.list.push(action.payload);
         },
+        // resolveBug = command - bugResolved = event
         bugResolved: (bugs, action) => {
             const index = bugs.list.findIndex(bug => bug.id === action.payload.id);
             if(index !== -1)  bugs.list[index].resolved = true;
@@ -78,6 +83,15 @@ export const addBug = bug => apiCallBegan({
     method: "post",
     data: bug, //this bug object will be included in the body of the request
     onSuccess: bugAdded.type
+});
+
+//New action creator here for resolving bugs
+export const resolveBug = id => apiCallBegan({
+    //PATCH /bugs/{bugId}
+    url: bugsUrl + '/' + id,
+    method: 'patch',
+    data: { resolved: true}, //include this in the body of the request
+    onSuccess: bugResolved.type
 });
 
 export const getBugsByUser = userId =>
