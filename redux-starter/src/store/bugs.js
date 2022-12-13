@@ -26,7 +26,15 @@ const slice = createSlice({
         },
         bugsReceived: (bugs, action) => {
             bugs.list = action.payload;
-        } 
+            bugs.loading = false;
+        },
+        bugsRequested: (bugs, action) => {
+            //this reducer and action are for when the bugs are being fetched, to display a spinner to the user 
+            bugs.loading = true;
+        },
+        bugsRequestFailed: (bugs, action) => {
+            bugs.loading = false;
+        }
     }
 });
 
@@ -34,7 +42,9 @@ export const {
     bugAssignedToUser,
     bugAdded,
     bugResolved,
-    bugsReceived
+    bugsReceived,
+    bugsRequested,
+    bugsRequestFailed
 } = slice.actions;
 export default slice.reducer;
 
@@ -44,7 +54,9 @@ const bugsUrl = "/bugs";
 //Action Creators
 export const loadBugs = () => apiCallBegan({
     url: bugsUrl,
+    onStart: bugsRequested.type,
     onSuccess: bugsReceived.type, //can also write this like slice.actions.bugsReceived.type if you don't want to do object destructuring above
+    onError: bugsRequestFailed.type
 });
 
 // Redux Toolkit Reducer - the first argument is the initial state, the second argument is a function that maps actions to functions that handle the actions

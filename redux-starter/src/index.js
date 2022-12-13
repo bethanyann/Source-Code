@@ -3,7 +3,6 @@ import { bugAdded, bugResolved, bugAssignedToUser, getUnresolvedBugs, getUnresol
 import { projectAdded } from './store/projects';
 import { userAdded } from './store/users';
 // import * as actions from './store/api';
-
 import { loadBugs } from './store/bugs';
 
 const store = configureStore();
@@ -30,23 +29,23 @@ const unsubscribe = store.subscribe(() => {
 
 // easier way to dispatch an action is to call the action creator like this: 
 // wrap the string value in an object with the description property for redux toolkit -- need to do it like this so the reducer doesn't break
-store.dispatch(bugAdded({ description: "Bug 1" })); 
-store.dispatch(bugAdded({ description: "Bug 2" }));
-store.dispatch(bugAdded({ description: "Bug 3" }));
-store.dispatch(bugResolved({ id: 1}));
+// store.dispatch(bugAdded({ description: "Bug 1" })); 
+// store.dispatch(bugAdded({ description: "Bug 2" }));
+// store.dispatch(bugAdded({ description: "Bug 3" }));
+// store.dispatch(bugResolved({ id: 1}));
 
-store.dispatch(userAdded("User 1"));
-store.dispatch(userAdded("User 2"));
+// store.dispatch(userAdded("User 1"));
+// store.dispatch(userAdded("User 2"));
 
-store.dispatch(bugAssignedToUser({ bugId: 1, userId: 1}));
+// store.dispatch(bugAssignedToUser({ bugId: 1, userId: 1}));
 
-store.dispatch(projectAdded({name: "Project 1"}));
+// store.dispatch(projectAdded({name: "Project 1"}));
 
-const unresolvedBugs = getUnresolvedBugs(store.getState());
-const unresolvedBugsAgain = getUnresolvedBugs(store.getState());
+// const unresolvedBugs = getUnresolvedBugs(store.getState());
+// const unresolvedBugsAgain = getUnresolvedBugs(store.getState());
 
-//this returns false because these reference two different objects
-console.log(unresolvedBugs === unresolvedBugsAgain); 
+// //this returns false because these reference two different objects
+// console.log(unresolvedBugs === unresolvedBugsAgain); 
 
 //const unresolvedBugsMemoed = getUnresolvedBugsMemo(store.getState());
 //const unresolvedBugsMemoedAgain = getUnresolvedBugsMemo(store.getState());
@@ -55,8 +54,8 @@ console.log(unresolvedBugs === unresolvedBugsAgain);
 //console.log(unresolvedBugsMemoed === unresolvedBugsMemoedAgain); 
 
 //this is that concept of currying that was discussed in the other redux video that I started watching.
-const user1Bugs = getBugsByUser(1)(store.getState());
-console.log(user1Bugs);
+//const user1Bugs = getBugsByUser(1)(store.getState());
+//console.log(user1Bugs);
 
 console.log(store);
 
