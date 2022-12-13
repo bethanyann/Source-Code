@@ -2,14 +2,22 @@ import configureStore from './store/configureStore';
 import { bugAdded, bugResolved, bugAssignedToUser, getUnresolvedBugs, getUnresolvedBugsMemo, getBugsByUser } from './store/bugs';
 import { projectAdded } from './store/projects';
 import { userAdded } from './store/users';
-import * as actions from './store/api';
+// import * as actions from './store/api';
+
+import { loadBugs } from './store/bugs';
 
 const store = configureStore();
 
-store.dispatch(actions.apiCallBegan({
-    url: '/bugs',
-    onSuccess: 'bugsReceived', // using strings, not passing functions as callbacks because this action should be serializable
-}));
+//this code below isn't great to have in the UI layer as it contains too much business logic and also will need duplicated around the site
+// store.dispatch(actions.apiCallBegan({
+//     url: '/bugs',
+//     onSuccess: 'bugs/bugsReceived', // using strings, not passing functions as callbacks because this action should be serializable
+// }));
+
+//better to write something like this in the UI layer:
+//simply dispatch this action and our UI becomes hydrated from the data on the server.
+//very simple and also reusable
+store.dispatch(loadBugs());
 
 // subscribe to the store
 // this function returns a method for unsubscribing to the store 

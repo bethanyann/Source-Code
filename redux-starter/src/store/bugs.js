@@ -1,13 +1,6 @@
 import { createAction, createReducer, createSlice } from "@reduxjs/toolkit";
 import { createSelector } from 'reselect';
-
-// ACTION CREATORS
-//Redux Toolkit way of writing Action Creators
-// export const bugAdded = createAction("bugAdded");
-// export const bugResolved = createAction("bugResolved");
-// export const bugRemoved = createAction("bugRemoved");
-// export const bugAssignedToUser = createAction("bugAssignedToUser");
-// REDUCERS
+import { apiCallBegan } from './api';
 
 let lastId = 0;
 
@@ -40,9 +33,19 @@ const slice = createSlice({
 export const {
     bugAssignedToUser,
     bugAdded,
-    bugResolved
+    bugResolved,
+    bugsReceived
 } = slice.actions;
 export default slice.reducer;
+
+//URL consts should probably go in a constants file somewhere
+const bugsUrl = "/bugs";
+
+//Action Creators
+export const loadBugs = () => apiCallBegan({
+    url: bugsUrl,
+    onSuccess: bugsReceived.type, //can also write this like slice.actions.bugsReceived.type if you don't want to do object destructuring above
+});
 
 // Redux Toolkit Reducer - the first argument is the initial state, the second argument is a function that maps actions to functions that handle the actions
 // export default createReducer([], { 
