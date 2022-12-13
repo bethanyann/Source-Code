@@ -13,7 +13,7 @@ const slice = createSlice({
     },
     reducers: {
         bugAssignedToUser: (bugs, action) => {
-            const { bugId, userId } = action.payload;
+            const { id: bugId, userId } = action.payload;
             const index = bugs.list.findIndex(bug => bug.id === bugId);
             if(index !== -1) bugs.list[index].userId = userId;
         },
@@ -83,6 +83,13 @@ export const addBug = bug => apiCallBegan({
     method: "post",
     data: bug, //this bug object will be included in the body of the request
     onSuccess: bugAdded.type
+});
+
+export const assignBugToUser = (bugId, userId) => apiCallBegan({
+    url: bugsUrl + '/' + bugId,
+    method: 'patch',
+    data: { userId },
+    onSuccess: bugAssignedToUser.type
 });
 
 //New action creator here for resolving bugs

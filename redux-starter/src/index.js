@@ -3,7 +3,7 @@ import { bugAdded, bugResolved, bugAssignedToUser, getUnresolvedBugs, getUnresol
 import { projectAdded } from './store/projects';
 import { userAdded } from './store/users';
 // import * as actions from './store/api';
-import { loadBugs, resolveBug, addBug } from './store/bugs';
+import { loadBugs, resolveBug, addBug, assignBugToUser } from './store/bugs';
 
 const store = configureStore();
 
@@ -20,7 +20,9 @@ store.dispatch(loadBugs());
 
 store.dispatch(addBug({ description: "a" }));
 //dispatch loadBugs() again after 2 seconds
-setTimeout(() => store.dispatch(resolveBug(1)), 2000);
+//setTimeout(() => store.dispatch(resolveBug(1)), 2000);
+
+setTimeout(() => store.dispatch(assignBugToUser(1, 4)), 3000);
 
 // subscribe to the store
 // this function returns a method for unsubscribing to the store 
