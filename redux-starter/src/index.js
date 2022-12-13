@@ -4,6 +4,7 @@ import { projectAdded } from './store/projects';
 import { userAdded } from './store/users';
 // import * as actions from './store/api';
 import { loadBugs } from './store/bugs';
+import { addBug } from './store/bugs';
 
 const store = configureStore();
 
@@ -18,8 +19,9 @@ const store = configureStore();
 //very simple and also reusable
 store.dispatch(loadBugs());
 
+store.dispatch(addBug({ description: "a" }));
 //dispatch loadBugs() again after 2 seconds
-setTimeout(() => store.dispatch(loadBugs()));
+setTimeout(() => {store.dispatch(loadBugs())}, 4000);
 
 // subscribe to the store
 // this function returns a method for unsubscribing to the store 
@@ -29,46 +31,6 @@ const unsubscribe = store.subscribe(() => {
     // and can update
     console.log("Store changed!");
 });
-
-// easier way to dispatch an action is to call the action creator like this: 
-// wrap the string value in an object with the description property for redux toolkit -- need to do it like this so the reducer doesn't break
-// store.dispatch(bugAdded({ description: "Bug 1" })); 
-// store.dispatch(bugAdded({ description: "Bug 2" }));
-// store.dispatch(bugAdded({ description: "Bug 3" }));
-// store.dispatch(bugResolved({ id: 1}));
-
-// store.dispatch(userAdded("User 1"));
-// store.dispatch(userAdded("User 2"));
-
-// store.dispatch(bugAssignedToUser({ bugId: 1, userId: 1}));
-
-// store.dispatch(projectAdded({name: "Project 1"}));
-
-// const unresolvedBugs = getUnresolvedBugs(store.getState());
-// const unresolvedBugsAgain = getUnresolvedBugs(store.getState());
-
-// //this returns false because these reference two different objects
-// console.log(unresolvedBugs === unresolvedBugsAgain); 
-
-//const unresolvedBugsMemoed = getUnresolvedBugsMemo(store.getState());
-//const unresolvedBugsMemoedAgain = getUnresolvedBugsMemo(store.getState());
-
-//this returns true because the bug data didn't change, therefore it pulled the second one from the cache
-//console.log(unresolvedBugsMemoed === unresolvedBugsMemoedAgain); 
-
-//this is that concept of currying that was discussed in the other redux video that I started watching.
-//const user1Bugs = getBugsByUser(1)(store.getState());
-//console.log(user1Bugs);
-
-console.log(store);
-
-// store.dispatch({
-//     type: actions.BUG_RESOLVED,
-//     payload: {
-//         id: 1
-//     }
-// });
-
 
 console.log(store);
 
