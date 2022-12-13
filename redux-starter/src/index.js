@@ -18,6 +18,9 @@ const store = configureStore();
 //very simple and also reusable
 store.dispatch(loadBugs());
 
+//dispatch loadBugs() again after 2 seconds
+setTimeout(() => store.dispatch(loadBugs()));
+
 // subscribe to the store
 // this function returns a method for unsubscribing to the store 
 const unsubscribe = store.subscribe(() => {

@@ -1,7 +1,7 @@
 import { createAction, createReducer, createSlice } from "@reduxjs/toolkit";
 import { createSelector } from 'reselect';
 import { apiCallBegan } from './api';
-
+import moment from 'moment'
 let lastId = 0;
 
 const slice = createSlice({
@@ -27,6 +27,8 @@ const slice = createSlice({
         bugsReceived: (bugs, action) => {
             bugs.list = action.payload;
             bugs.loading = false;
+            //to keep track of caching
+            bugs.lastFetch = Date.now();
         },
         bugsRequested: (bugs, action) => {
             //this reducer and action are for when the bugs are being fetched, to display a spinner to the user 
@@ -52,12 +54,33 @@ export default slice.reducer;
 const bugsUrl = "/bugs";
 
 //Action Creators
-export const loadBugs = () => apiCallBegan({
-    url: bugsUrl,
-    onStart: bugsRequested.type,
-    onSuccess: bugsReceived.type, //can also write this like slice.actions.bugsReceived.type if you don't want to do object destructuring above
-    onError: bugsRequestFailed.type
-});
+//rewriting the implementation to return a function so that we can access the state and get the lastFetch data
+export const loadBugs = () => (dispatch, getState) => {
+    debugger;
+    const { lastFetch } = getState().entities.bugs;
+
+    const timeDiffInMinutes = moment().diff(moment(lastFetch), 'minutes');
+    console.log(timeDiffInMinutes);
+
+    if(timeDiffInMinutes < 10 ) return;
+    //this returns an action object but we need to explicitly dispatch this action 
+    dispatch(apiCallBegan({
+        url: bugsUrl,
+        onStart: bugsRequested.type,
+        onSuccess: bugsReceived.type, //can also write this like slice.actions.bugsReceived.type if you don't want to do object destructuring above
+        onError: bugsRequestFailed.type
+    }));
+
+}
+
+// export const loadBugs = () => apiCallBegan({
+//     url: bugsUrl,
+//     onStart: bugsRequested.type,
+//     onSuccess: bugsReceived.type, //can also write this like slice.actions.bugsReceived.type if you don't want to do object destructuring above
+//     onError: bugsRequestFailed.type
+//});
+
+
 
 // Redux Toolkit Reducer - the first argument is the initial state, the second argument is a function that maps actions to functions that handle the actions
 // export default createReducer([], { 
