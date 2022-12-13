@@ -11,12 +11,18 @@ const api = store => next => async action => {
         next(action);
         return;
     }
-        
     //get the props from the payload of the action
-    const {  url, method, data, onSuccess, onError } = action.payload;
+    const {  url, method, data, onSuccess, onError, onStart } = action.payload;
+  
+    //only dispatch this action if onStart is defined
+    if(onStart) {
+       store.dispatch({ type: onStart });
+    }
+    
+    //run the apiCallBegan after the onStart has been dispatched
     next(action);
 
-    try{
+    try {
         const response = await axios.request({ 
             baseURL: 'http://localhost:9001/api',
             url,  //the url of the endpoint like /bugs
@@ -35,11 +41,11 @@ const api = store => next => async action => {
     } catch(error) {
         //if error, dispatch an error action
         //General error dispatch
-        console.log(error);
-        store.dispatch(actions.apiCallFailed(error));
+        console.log(error.message);
+        store.dispatch(actions.apiCallFailed(error.message));
         //Specfic error dispatch
         if(onError)
-            store.dispatch({ type: onError, payload: error })
+            store.dispatch({ type: onError, payload: error.message });
     }
     
 };
