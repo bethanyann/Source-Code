@@ -7,10 +7,8 @@ import * as actions from './store/api';
 const store = configureStore();
 
 store.dispatch(actions.apiCallBegan({
-    payload: {
-        url: '/bugs',
-        onSuccess: 'bugsReceived', // using strings, not passing functions as callbacks because this action should be serializable
-    }
+    url: '/bugs',
+    onSuccess: 'bugsReceived', // using strings, not passing functions as callbacks because this action should be serializable
 }));
 
 // subscribe to the store
@@ -42,11 +40,11 @@ const unresolvedBugsAgain = getUnresolvedBugs(store.getState());
 //this returns false because these reference two different objects
 console.log(unresolvedBugs === unresolvedBugsAgain); 
 
-const unresolvedBugsMemoed = getUnresolvedBugsMemo(store.getState());
-const unresolvedBugsMemoedAgain = getUnresolvedBugsMemo(store.getState());
+//const unresolvedBugsMemoed = getUnresolvedBugsMemo(store.getState());
+//const unresolvedBugsMemoedAgain = getUnresolvedBugsMemo(store.getState());
 
 //this returns true because the bug data didn't change, therefore it pulled the second one from the cache
-console.log(unresolvedBugsMemoed === unresolvedBugsMemoedAgain); 
+//console.log(unresolvedBugsMemoed === unresolvedBugsMemoedAgain); 
 
 //this is that concept of currying that was discussed in the other redux video that I started watching.
 const user1Bugs = getBugsByUser(1)(store.getState());

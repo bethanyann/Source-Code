@@ -11,14 +11,14 @@ const api = store => next => async action => {
         next(action);
         return;
     }
-    next(action);
         
     //get the props from the payload of the action
     const {  url, method, data, onSuccess, onError } = action.payload;
+    next(action);
 
     try{
         const response = await axios.request({ 
-            baseURL: 'http://localhost:9000/api',
+            baseURL: 'http://localhost:9001/api',
             url,  //the url of the endpoint like /bugs
             method,
             data 

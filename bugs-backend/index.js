@@ -13,6 +13,10 @@ const bugs = [
   { id: 4, description: "Bug 4" }
 ];
 
+app.get("/api", (req,res) => {
+ res.json(bugs);
+});
+
 app.get("/api/bugs", (req, res) => {
   res.json(bugs);
 });
