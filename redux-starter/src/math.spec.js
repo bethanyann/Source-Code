@@ -3,7 +3,7 @@ import { isEven }from './math';
 //define a group or suite of tests 
 describe("isEven function testing", () => {
     //define name of test and then define function that runs as the test 
-    it("isEven should return true if given an even number", () => {
+    it("Return true if given an even number", () => {
         //function under test
         const result = isEven(2);
 
@@ -11,7 +11,7 @@ describe("isEven function testing", () => {
         expect(result).toEqual(true);
     });
 
-    it("isEven should return false if given an odd number", () => {
+    it("Return false if given an odd number", () => {
         //function under test
         const result = isEven(1);
 
