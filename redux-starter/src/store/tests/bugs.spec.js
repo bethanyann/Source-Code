@@ -26,6 +26,7 @@ describe("bugSlice Tests", () => {
     });
 });
 
+//integration test
 describe("bugSlice", () => {
     it("should handle the addBug action", async () => {
         // dispatch(addbug) => store
