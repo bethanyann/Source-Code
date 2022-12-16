@@ -77,7 +77,7 @@ export const loadBugs = () => (dispatch, getState) => {
         onError: bugsRequestFailed.type
     }));
 }
-
+//test action creator to make sure the tests didn't break 
 //New action creator here for saving data to the server
 export const addBug = bug => apiCallBegan({
     url: bugsUrl,
