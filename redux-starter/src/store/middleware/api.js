@@ -8,8 +8,8 @@ import * as actions from '../api';
 const api = store => next => async action => {
     if(action.type !== actions.apiCallBegan.type) {
         //if action does not match, pass it to the next one in the line
-        next(action);
-        return;
+       next(action);
+       return;
     }
     //get the props from the payload of the action
     const {  url, method, data, onSuccess, onError, onStart } = action.payload;
@@ -29,10 +29,7 @@ const api = store => next => async action => {
             method,
             data 
         });
-        console.log(response);
-
         //if success, dispatch an action
-        
         //General success dispatch
         store.dispatch(actions.apiCallSuccess(response.data));
         //Specfic success dispatch
@@ -51,15 +48,5 @@ const api = store => next => async action => {
 };
 
 
-const action = {
-    type: 'apiCallBegan',
-    payload: {
-        url: '/bugs',
-        method: 'get',
-        data: {},
-        onSuccess: 'bugsReceived', // using strings, not passing functions as callbacks because this action should be serializable
-        onError: 'apiRequestFailed' // functions are not serializable
-    }
-}
 
 export default api;
