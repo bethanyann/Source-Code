@@ -119,8 +119,13 @@ export const getBugsByUser = userId =>
     bugs => bugs.list.filter(bug => bug.userId === userId)
   );
 
+//selectors might seem confusing but they are just functions that take in state and return
+//a list of unresolved bugs
+//state => unresolvedBugs
 export const getUnresolvedBugs = createSelector(
   state => state.entities.bugs,
   state => state.entities.projects,
   (bugs, projects) => bugs.list.filter(bug => !bug.resolved)
 );
+
+
