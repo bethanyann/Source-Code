@@ -1,6 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { addBug, getUnresolvedBugs, resolveBug } from '../bugs';
+import { addBug, getUnresolvedBugs, resolveBug, loadBugs } from '../bugs';
 import { apiCallBegan } from '../api';
 import createStore from '../configureStore';
 
@@ -101,8 +101,63 @@ describe("bugSlice", () => {
         expect(bugsSlice().list[0].resolved).not.toBe(true);
     });
 
-    it("should load bugs", async () => {
-        //
+    //loading bugs
+    // - if they exist in the cache, they should come from the cache
+    // - if they don't exist in the cache, they should be fetched from the server
+    //      -- loading indicator should show when loading from server
+    //      -- should be true while fetching, false after bugs are fetched, false if server fails
+
+    describe("loading bugs", () => {
+        describe("if the bugs exist in the cache", () => {
+            if("they should not be fetched from the server again", async () => {
+                fakeAxios.onGet("/bugs").reply(200, [{ id: 1,}]); 
+
+                await store.dispatch(loadBugs());
+                await store.dispatch(loadBugs());
+
+                //fakeAxios contains a history prop to check if there's been more than one fetch to the server
+                expect(fakeAxios.history.get.length).toBe(1);
+            });
+        });
+
+        describe("if the bugs don't exist in the cache", () => {
+            describe("bugs should be fetched from the server and put in the store", async () => {
+                fakeAxios.onGet("/bugs").reply(200, [{ id: 1,}]); 
+
+                await store.dispatch(loadBugs());
+
+                expect(bugSlice().list).toHaveLength();
+            });
+
+            describe("loading indicator", () => {
+                it("should be true while fetching bugs", () => {
+                    //get bugs and just send one bug object back
+                    fakeAxios.onGet("/bugs").reply(() => {
+                        //return a function from the fakeAxios mock to test things that are happening before the response finishes
+                        expect(bugsSlice().loading).toBe(true);
+                        return [200, [{id: 1}]];
+                    });
+                    //don't await because we don't need to wait for the load to finish 
+                    store.dispatch(loadBugs());
+                });
+
+                it("should be false after the bugs are fetch", async () => {
+                    //get bugs and just send one bug object back
+                    fakeAxios.onPost('/bugs').reply(200, {id: 1});
+                    //await this call because we need it to finish before testing if the loading spinner is false
+                    await store.dispatch(loadBugs());
+
+                    expect(bugsSlice().loading).toBe(false);
+                });
+
+                it("should be false if the server returns an error", async () => {
+                    //get bugs and just send one bug object back
+                    fakeAxios.onPost('/bugs').reply(500);
+                    //await this call because we need it to finish before testing if the loading spinner is false
+                    expect(bugsSlice().loading).toBe(false);
+                });
+            })
+        });
     });
 
     describe("selectors", () => {

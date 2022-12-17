@@ -71,7 +71,7 @@ export const loadBugs = () => (dispatch, getState) => {
 
     if(timeDiffInMinutes < 10 ) return;
     //this returns an action object but we need to explicitly dispatch this action 
-    dispatch(apiCallBegan({
+    return dispatch(apiCallBegan({
         url: bugsUrl,
         onStart: bugsRequested.type,
         onSuccess: bugsReceived.type, //can also write this like slice.actions.bugsReceived.type if you don't want to do object destructuring above
